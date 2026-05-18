@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mathias Maiga — Portfolio BTS SIO SISR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f7ff;
+    --card: #ffffff;
+    --text: #1a1040;
+    --muted: #6b6b8a;
+    --border: #e8e4ff;
+    --blue: #4361ee;
+    --purple: #7209b7;
+    --pink: #f72585;
+    --green: #0ead69;
+    --orange: #fb8500;
+    --cyan: #4cc9f0;
+    --radius: 20px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; overflow-x:hidden; }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1rem 3rem;
+    background:rgba(248,247,255,0.92); backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-logo { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; background:linear-gradient(135deg,var(--blue),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .nav-links { display:flex; gap:2rem; list-style:none; }
+  .nav-links a { text-decoration:none; color:var(--muted); font-size:0.875rem; font-weight:500; transition:color .2s; }
+  .nav-links a:hover { color:var(--blue); }
+  .nav-cta { padding:.55rem 1.4rem; border-radius:50px; background:linear-gradient(135deg,var(--blue),var(--purple)); color:#fff!important; font-size:.82rem!important; font-weight:600!important; box-shadow:0 4px 15px rgba(67,97,238,.35); transition:transform .2s,box-shadow .2s!important; }
+  .nav-cta:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(67,97,238,.45)!important; }
+  .burger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+  .burger span { width:24px; height:2px; background:var(--text); display:block; border-radius:2px; }
+  .mobile-menu { display:none; position:fixed; inset:0; z-index:99; background:rgba(248,247,255,.98); backdrop-filter:blur(20px); flex-direction:column; align-items:center; justify-content:center; gap:2rem; }
+  .mobile-menu.open { display:flex; }
+  .mobile-menu a { font-family:'Syne',sans-serif; font-size:2rem; font-weight:700; color:var(--text); text-decoration:none; }
+  .mobile-menu a:hover { color:var(--blue); }
+  .close-btn { position:absolute; top:1.5rem; right:2rem; background:none; border:none; color:var(--muted); font-size:1.5rem; cursor:pointer; }
+
+  /* HERO */
+  .hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:8rem 2rem 5rem; position:relative; overflow:hidden; }
+  .blob { position:absolute; border-radius:50%; pointer-events:none; }
+  .blob1 { top:-120px; right:-180px; width:550px; height:550px; background:radial-gradient(ellipse,rgba(67,97,238,.13),transparent 70%); }
+  .blob2 { bottom:-80px; left:-120px; width:420px; height:420px; background:radial-gradient(ellipse,rgba(247,37,133,.1),transparent 70%); }
+  .blob3 { top:28%; left:8%; width:300px; height:300px; background:radial-gradient(ellipse,rgba(76,201,240,.09),transparent 70%); }
+  .hero-badge { display:inline-flex; align-items:center; gap:.5rem; padding:.45rem 1.2rem; border-radius:50px; background:linear-gradient(135deg,rgba(67,97,238,.11),rgba(114,9,183,.07)); border:1px solid rgba(67,97,238,.2); font-size:.78rem; font-weight:600; color:var(--blue); letter-spacing:.05em; margin-bottom:1.5rem; animation:fadeUp .6s ease both; }
+  .hero-badge::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(.8)} }
+  .hero h1 { font-family:'Syne',sans-serif; font-size:clamp(3.2rem,7vw,6rem); font-weight:800; line-height:1.05; letter-spacing:-.04em; animation:fadeUp .6s .1s ease both; color:var(--text); }
+  .hero h1 .grad { background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 50%,var(--pink) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero-sub { font-size:1.05rem; color:var(--muted); max-width:540px; margin:1.5rem auto 0; line-height:1.7; animation:fadeUp .6s .2s ease both; }
+  .hero-chips { display:flex; flex-wrap:wrap; gap:.75rem; justify-content:center; margin-top:2.5rem; animation:fadeUp .6s .3s ease both; }
+  .chip { display:flex; align-items:center; gap:.5rem; padding:.5rem 1.1rem; border-radius:50px; background:#fff; border:1px solid var(--border); font-size:.82rem; color:var(--muted); font-weight:500; text-decoration:none; transition:all .2s; box-shadow:0 2px 8px rgba(67,97,238,.06); }
+  .chip:hover { border-color:var(--blue); color:var(--blue); transform:translateY(-1px); box-shadow:0 4px 15px rgba(67,97,238,.12); }
+  .chip svg { width:14px; height:14px; }
+  .hero-ctas { display:flex; gap:1rem; margin-top:2.5rem; justify-content:center; animation:fadeUp .6s .4s ease both; }
+  .btn-p { padding:.8rem 2.2rem; border-radius:50px; background:linear-gradient(135deg,var(--blue),var(--purple)); color:#fff; font-family:'Plus Jakarta Sans',sans-serif; font-size:.9rem; font-weight:600; text-decoration:none; border:none; cursor:pointer; box-shadow:0 6px 20px rgba(67,97,238,.35); transition:all .2s; }
+  .btn-p:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(67,97,238,.4); }
+  .btn-s { padding:.8rem 2.2rem; border-radius:50px; background:#fff; border:1.5px solid var(--border); color:var(--text); font-family:'Plus Jakarta Sans',sans-serif; font-size:.9rem; font-weight:600; text-decoration:none; cursor:pointer; transition:all .2s; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+  .btn-s:hover { border-color:var(--blue); color:var(--blue); transform:translateY(-2px); }
+  .scroll-hint { margin-top:4rem; display:flex; flex-direction:column; align-items:center; gap:.5rem; color:var(--muted); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; animation:fadeUp .6s .6s ease both; }
+  .scroll-arrow { width:22px; height:34px; border:2px solid var(--border); border-radius:12px; position:relative; }
+  .scroll-arrow::after { content:''; position:absolute; top:5px; left:50%; transform:translateX(-50%); width:3px; height:8px; background:var(--blue); border-radius:2px; animation:scrollD 1.5s infinite; }
+  @keyframes scrollD { 0%{opacity:1;top:5px} 100%{opacity:0;top:18px} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+  /* LAYOUT */
+  .sw { padding:5rem 2rem; max-width:1100px; margin:0 auto; }
+  .stag { display:inline-flex; align-items:center; font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:.35rem 1rem; border-radius:50px; margin-bottom:.9rem; }
+  .tb { background:rgba(67,97,238,.1); color:var(--blue); }
+  .tg { background:rgba(14,173,105,.1); color:var(--green); }
+  .tp { background:rgba(114,9,183,.1); color:var(--purple); }
+  .tpk { background:rgba(247,37,133,.1); color:var(--pink); }
+  .to { background:rgba(251,133,0,.1); color:var(--orange); }
+  .stitle { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:800; letter-spacing:-.03em; line-height:1.1; margin-bottom:.5rem; color:var(--text); }
+  .ssub { font-size:.95rem; color:var(--muted); margin-bottom:3rem; }
+  .divider { max-width:1100px; margin:0 auto; height:1px; background:var(--border); }
+
+  /* À PROPOS */
+  .ap-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+  .ap-left { display:flex; flex-direction:column; gap:1.25rem; }
+  .ap-id { display:flex; align-items:center; gap:1rem; }
+  .ap-av { width:60px; height:60px; border-radius:16px; flex-shrink:0; background:linear-gradient(135deg,var(--blue),var(--purple)); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; color:#fff; overflow:hidden; box-shadow:0 6px 20px rgba(67,97,238,.3); }
+  .ap-av img { width:100%; height:100%; object-fit:cover; border-radius:16px; }
+  .ap-name { font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:800; color:var(--text); }
+  .ap-sub { font-size:.82rem; color:var(--blue); margin-top:.15rem; font-weight:600; }
+  .ap-bio { font-size:.93rem; color:var(--muted); line-height:1.8; }
+  .ap-bio strong { color:var(--text); font-weight:600; }
+  .ap-bloc { border-radius:var(--radius); padding:1.15rem 1.3rem; }
+  .ab-blue { background:rgba(67,97,238,.05); border:1px solid rgba(67,97,238,.18); }
+  .ab-purple { background:rgba(114,9,183,.05); border:1px solid rgba(114,9,183,.18); }
+  .ab-green { background:rgba(14,173,105,.05); border:1px solid rgba(14,173,105,.18); }
+  .ap-btitle { font-size:.85rem; font-weight:700; display:flex; align-items:center; gap:.5rem; margin-bottom:.85rem; }
+  .ap-btitle.blue { color:var(--blue); } .ap-btitle.purple { color:var(--purple); } .ap-btitle.green { color:var(--green); }
+  .ap-bloc ul { list-style:none; display:flex; flex-direction:column; gap:.45rem; }
+  .ap-bloc ul li { font-size:.85rem; color:var(--muted); padding-left:1.2rem; position:relative; }
+  .ab-blue ul li::before { content:'→'; position:absolute; left:0; color:var(--blue); font-size:.75rem; }
+  .ab-purple ul li::before { content:'→'; position:absolute; left:0; color:var(--purple); font-size:.75rem; }
+  .ap-bloc p { font-size:.85rem; color:var(--muted); line-height:1.7; }
+  .ap-langs { display:flex; gap:2rem; margin-top:.25rem; }
+  .ap-ln { font-size:.88rem; font-weight:600; color:var(--text); }
+  .ap-ll { font-size:.75rem; color:var(--muted); margin-top:.1rem; }
+  .ap-right { display:flex; flex-direction:column; gap:1.25rem; }
+  .apc { background:#fff; border-radius:var(--radius); border:1px solid var(--border); padding:1.3rem 1.4rem; }
+  .apc.sblue { box-shadow:0 8px 30px rgba(67,97,238,.1); }
+  .apc.sgreen { box-shadow:0 8px 30px rgba(14,173,105,.1); }
+  .apc-label { font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; margin-bottom:1rem; font-weight:700; }
+  .apc-label.blue { color:var(--blue); } .apc-label.green { color:var(--green); }
+  .ap-tl { display:flex; flex-direction:column; }
+  .ap-ti { display:flex; gap:1rem; padding-bottom:1.1rem; }
+  .ap-ti:last-child { padding-bottom:0; }
+  .ap-tl-l { display:flex; flex-direction:column; align-items:center; width:10px; flex-shrink:0; padding-top:4px; }
+  .ap-dot { width:9px; height:9px; border-radius:50%; border:2px solid #fff; flex-shrink:0; }
+  .ap-dot.b { background:var(--blue); box-shadow:0 0 0 3px rgba(67,97,238,.15); }
+  .ap-dot.g { background:var(--green); box-shadow:0 0 0 3px rgba(14,173,105,.15); }
+  .ap-tl-line { flex:1; width:1.5px; background:var(--border); margin-top:3px; }
+  .ap-ti:last-child .ap-tl-line { display:none; }
+  .ap-tt { font-size:.88rem; font-weight:600; color:var(--text); margin-bottom:.1rem; }
+  .ap-tw { font-size:.78rem; color:var(--blue); margin-bottom:.1rem; font-weight:500; }
+  .ap-td { font-size:.73rem; color:var(--muted); }
+  .ap-eh { display:flex; align-items:center; gap:.75rem; margin-bottom:.6rem; }
+  .ap-eb { font-size:.7rem; padding:.22rem .75rem; border-radius:50px; font-weight:600; }
+  .ap-eb.alt { background:rgba(67,97,238,.1); color:var(--blue); }
+  .ap-en { font-size:.95rem; font-weight:700; color:var(--text); }
+  .ap-em { font-size:.78rem; color:var(--muted); margin-bottom:.75rem; }
+  .ap-el { list-style:none; display:flex; flex-direction:column; gap:.35rem; }
+  .ap-el li { font-size:.83rem; color:var(--muted); padding-left:1rem; position:relative; }
+  .ap-el li::before { content:'·'; position:absolute; left:0; color:var(--green); font-weight:900; font-size:1rem; line-height:1.2; }
+
+  /* TIMELINE */
+  .timeline { display:flex; flex-direction:column; }
+  .tli { display:grid; grid-template-columns:130px 2px 1fr; gap:0 2rem; padding-bottom:2.5rem; }
+  .tl-date { font-size:.78rem; color:var(--muted); text-align:right; padding-top:.3rem; font-weight:500; }
+  .tl-lw { position:relative; display:flex; justify-content:center; }
+  .tl-lw::before { content:''; position:absolute; top:0; bottom:0; left:0; width:2px; background:var(--border); }
+  .tl-dot { position:absolute; top:.25rem; left:-5px; width:12px; height:12px; border-radius:50%; border:2.5px solid #fff; z-index:1; }
+  .tl-dot.b { background:var(--blue); box-shadow:0 0 0 4px rgba(67,97,238,.15); }
+  .tl-dot.p { background:var(--purple); box-shadow:0 0 0 4px rgba(114,9,183,.15); }
+  .tl-dot.g { background:var(--green); box-shadow:0 0 0 4px rgba(14,173,105,.15); }
+  .tl-dot.pk { background:var(--pink); box-shadow:0 0 0 4px rgba(247,37,133,.15); }
+  .tl-badge { display:inline-block; font-size:.68rem; font-weight:700; padding:.22rem .8rem; border-radius:50px; margin-bottom:.6rem; letter-spacing:.05em; }
+  .bdg-b { background:rgba(67,97,238,.1); color:var(--blue); }
+  .bdg-g { background:rgba(14,173,105,.1); color:var(--green); }
+  .tl-c h3 { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; color:var(--text); margin-bottom:.2rem; }
+  .tl-where { font-size:.82rem; color:var(--blue); font-weight:600; margin-bottom:.75rem; }
+  .tl-where.green { color:var(--green); }
+  .tl-c p { font-size:.88rem; color:var(--muted); line-height:1.7; }
+  .tl-c ul { list-style:none; margin-top:.75rem; display:flex; flex-direction:column; gap:.4rem; }
+  .tl-c ul li { font-size:.86rem; color:var(--muted); padding-left:1.1rem; position:relative; }
+  .tl-c.blue ul li::before { content:'→'; position:absolute; left:0; font-size:.75rem; color:var(--blue); }
+  .tl-c.green ul li::before { content:'→'; position:absolute; left:0; font-size:.75rem; color:var(--green); }
+
+  /* PROJETS */
+  .pg { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.25rem; }
+  .pc { background:#fff; border-radius:var(--radius); border:1px solid var(--border); padding:1.5rem; transition:all .25s; }
+  .pc:hover { transform:translateY(-4px); }
+  .pc.cb { box-shadow:0 4px 20px rgba(67,97,238,.08); } .pc.cb:hover { box-shadow:0 14px 40px rgba(67,97,238,.2); border-color:rgba(67,97,238,.3); }
+  .pc.cg { box-shadow:0 4px 20px rgba(14,173,105,.07); } .pc.cg:hover { box-shadow:0 14px 40px rgba(14,173,105,.18); border-color:rgba(14,173,105,.3); }
+  .pc.cp { box-shadow:0 4px 20px rgba(114,9,183,.07); } .pc.cp:hover { box-shadow:0 14px 40px rgba(114,9,183,.17); border-color:rgba(114,9,183,.3); }
+  .pc.cpk { box-shadow:0 4px 20px rgba(247,37,133,.07); } .pc.cpk:hover { box-shadow:0 14px 40px rgba(247,37,133,.17); border-color:rgba(247,37,133,.3); }
+  .pc.co { box-shadow:0 4px 20px rgba(251,133,0,.07); } .pc.co:hover { box-shadow:0 14px 40px rgba(251,133,0,.17); border-color:rgba(251,133,0,.3); }
+  .pc.cc { box-shadow:0 4px 20px rgba(76,201,240,.08); } .pc.cc:hover { box-shadow:0 14px 40px rgba(76,201,240,.2); border-color:rgba(76,201,240,.3); }
+  .pi { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; margin-bottom:1rem; }
+  .pc h3 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; color:var(--text); margin-bottom:.5rem; }
+  .pc p { font-size:.85rem; color:var(--muted); line-height:1.65; margin-bottom:1rem; }
+  .ptags { display:flex; flex-wrap:wrap; gap:.4rem; }
+  .ptag { padding:.22rem .7rem; border-radius:50px; font-size:.72rem; font-weight:500; background:rgba(67,97,238,.06); color:var(--muted); border:1px solid var(--border); }
+
+  /* BTS */
+  .btsg { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.25rem; }
+  .btsc { background:#fff; border-radius:var(--radius); border:1px solid var(--border); padding:1.5rem; transition:all .2s; }
+  .btsc:hover { transform:translateY(-3px); }
+  .btsc.b1 { box-shadow:0 6px 24px rgba(67,97,238,.1); } .btsc.b1:hover { box-shadow:0 14px 36px rgba(67,97,238,.2); } .btsc.b1 .bn { color:var(--blue); }
+  .btsc.b2 { box-shadow:0 6px 24px rgba(114,9,183,.08); } .btsc.b2:hover { box-shadow:0 14px 36px rgba(114,9,183,.18); } .btsc.b2 .bn { color:var(--purple); }
+  .btsc.b3 { box-shadow:0 6px 24px rgba(247,37,133,.08); } .btsc.b3:hover { box-shadow:0 14px 36px rgba(247,37,133,.18); } .btsc.b3 .bn { color:var(--pink); }
+  .btsc.b4 { box-shadow:0 6px 24px rgba(14,173,105,.08); } .btsc.b4:hover { box-shadow:0 14px 36px rgba(14,173,105,.18); } .btsc.b4 .bn { color:var(--green); }
+  .btsc.b5 { box-shadow:0 6px 24px rgba(251,133,0,.08); } .btsc.b5:hover { box-shadow:0 14px 36px rgba(251,133,0,.18); } .btsc.b5 .bn { color:var(--orange); }
+  .btsc.b6 { box-shadow:0 6px 24px rgba(76,201,240,.1); } .btsc.b6:hover { box-shadow:0 14px 36px rgba(76,201,240,.2); } .btsc.b6 .bn { color:var(--cyan); }
+  .bn { font-family:'Syne',sans-serif; font-size:2.2rem; font-weight:800; margin-bottom:.25rem; }
+  .btsc h4 { font-size:.9rem; font-weight:600; color:var(--text); margin-bottom:.5rem; }
+  .btsc p { font-size:.82rem; color:var(--muted); line-height:1.65; }
+
+  /* CONTACT */
+  .cc-grid { display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; }
+  .cc { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem 1.75rem; text-decoration:none; color:var(--text); display:flex; align-items:center; gap:1rem; min-width:220px; transition:all .2s; }
+  .cc.cb { box-shadow:0 4px 20px rgba(67,97,238,.08); } .cc.cb:hover { border-color:var(--blue); box-shadow:0 8px 30px rgba(67,97,238,.2); transform:translateY(-2px); }
+  .cc.cg { box-shadow:0 4px 20px rgba(14,173,105,.08); } .cc.cg:hover { border-color:var(--green); box-shadow:0 8px 30px rgba(14,173,105,.2); transform:translateY(-2px); }
+  .cc.cp { box-shadow:0 4px 20px rgba(114,9,183,.08); } .cc.cp:hover { border-color:var(--purple); box-shadow:0 8px 30px rgba(114,9,183,.2); transform:translateY(-2px); }
+  .cc.co { box-shadow:0 4px 20px rgba(251,133,0,.08); } .cc.co:hover { border-color:var(--orange); box-shadow:0 8px 30px rgba(251,133,0,.2); transform:translateY(-2px); }
+  .cc-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .cc-icon svg { width:20px; height:20px; }
+  .cc-label { font-size:.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-weight:600; }
+  .cc-val { font-size:.88rem; font-weight:600; color:var(--text); }
+
+  footer { text-align:center; padding:3rem 2rem; color:var(--muted); font-size:.82rem; border-top:1px solid var(--border); background:#fff; }
+  footer strong { color:var(--text); font-weight:600; }
+
+  @media (max-width:768px) {
+    nav { padding:1rem 1.5rem; }
+    .nav-links { display:none; }
+    .burger { display:flex; }
+    .ap-grid { grid-template-columns:1fr; }
+    .tli { grid-template-columns:70px 2px 1fr; gap:0 1rem; }
+    .sw { padding:3.5rem 1.25rem; }
+    .hero { padding:6rem 1.25rem 3rem; }
+    .hero-ctas { flex-direction:column; align-items:center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">MM</div>
+  <ul class="nav-links">
+    <li><a href="#apropos">À propos</a></li>
+    <li><a href="#formation">Formation</a></li>
+    <li><a href="#entreprise">Entreprise</a></li>
+    <li><a href="#realisations">Réalisations</a></li>
+    <li><a href="#competences">Compétences</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="burger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu">
+  <button class="close-btn" onclick="document.querySelector('.mobile-menu').classList.remove('open')">✕</button>
+  <a href="#apropos" onclick="this.closest('.mobile-menu').classList.remove('open')">À propos</a>
+  <a href="#formation" onclick="this.closest('.mobile-menu').classList.remove('open')">Formation</a>
+  <a href="#entreprise" onclick="this.closest('.mobile-menu').classList.remove('open')">Entreprise</a>
+  <a href="#realisations" onclick="this.closest('.mobile-menu').classList.remove('open')">Réalisations</a>
+  <a href="#competences" onclick="this.closest('.mobile-menu').classList.remove('open')">Compétences</a>
+  <a href="#contact" onclick="this.closest('.mobile-menu').classList.remove('open')">Contact</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+  <div class="hero-badge">BTS SIO · Option SISR · Alternance</div>
+  <h1>Mathias<br><span class="grad">Maiga</span></h1>
+  <p class="hero-sub">Technicien support &amp; réseau en alternance chez Star Service · Étudiant en 2ème année de BTS SIO SISR à H3 Campus Poissy</p>
+  <div class="hero-chips">
+    <a href="mailto:mathiasmaiga78@gmail.com" class="chip">
+      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+      mathiasmaiga78@gmail.com
+    </a>
+    <a href="tel:0611307436" class="chip">
+      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+      06 11 30 74 36
+    </a>
+    <span class="chip">
+      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+      Les Mureaux, France
+    </span>
+    <a href="https://www.linkedin.com/in/mathias-maiga-2951782a9/" target="_blank" class="chip">
+      <svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+      LinkedIn
+    </a>
+  </div>
+  <div class="hero-ctas">
+    <a href="#realisations" class="btn-p">Voir mes réalisations</a>
+    <a href="#contact" class="btn-s">Me contacter</a>
+  </div>
+  <div class="scroll-hint"><div class="scroll-arrow"></div>Scroll</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- À PROPOS -->
+<div class="sw" id="apropos">
+  <div class="stag tb">Qui suis-je</div>
+  <div class="stitle">À propos</div>
+  <p class="ssub">Mon profil, mon parcours et mes expériences</p>
+  <div class="ap-grid">
+    <div class="ap-left">
+      <div class="ap-id">
+        <div class="ap-av">MM<!-- Pour ta photo: <img src="photo.jpg" alt="Mathias Maiga"> --></div>
+        <div><div class="ap-name">Mathias Maiga</div><div class="ap-sub">BTS SIO option SISR · Alternance</div></div>
+      </div>
+      <p class="ap-bio">Je suis <strong>Mathias Maiga</strong>, étudiant en BTS SIO spécialité SISR en 2ème année à H3 Campus Poissy. Curieux, motivé et passionné par les <strong>infrastructures réseau</strong> et la <strong>cybersécurité</strong>, j'explore les domaines de la virtualisation, de l'administration système et de la sécurité pour bâtir des systèmes solides et efficaces.</p>
+      <div class="ap-bloc ab-blue">
+        <div class="ap-btitle blue">✦ Points clés</div>
+        <ul>
+          <li>Passionné par la cybersécurité et les infrastructures réseau</li>
+          <li>Curieux et autonome dans l'apprentissage de nouvelles technologies</li>
+          <li>Rigoureux dans la mise en place et la documentation de projets</li>
+          <li>À l'aise en environnement Linux comme en Windows Server</li>
+          <li>Expérience concrète via l'alternance chez Star Service</li>
+        </ul>
+      </div>
+      <div class="ap-bloc ab-purple">
+        <div class="ap-btitle purple">🎯 Mon objectif</div>
+        <p>Devenir administrateur systèmes et réseaux, avec une spécialisation en cybersécurité, et contribuer activement à la sécurisation des infrastructures d'une organisation.</p>
+      </div>
+      <div class="ap-bloc ab-green">
+        <div class="ap-btitle green">🌍 Langues</div>
+        <div class="ap-langs">
+          <div><div class="ap-ln">Français</div><div class="ap-ll">Langue maternelle</div></div>
+          <div><div class="ap-ln">Anglais</div><div class="ap-ll">Intermédiaire</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="ap-right">
+      <div class="apc sblue">
+        <div class="apc-label blue">🎓 Parcours scolaire</div>
+        <div class="ap-tl">
+          <div class="ap-ti"><div class="ap-tl-l"><div class="ap-dot b"></div><div class="ap-tl-line"></div></div><div><div class="ap-tt">BTS SIO SISR — 2ème année</div><div class="ap-tw">H3 Campus · Poissy</div><div class="ap-td">Sept. 2024 – Juin 2025</div></div></div>
+          <div class="ap-ti"><div class="ap-tl-l"><div class="ap-dot b"></div><div class="ap-tl-line"></div></div><div><div class="ap-tt">BTS SIO SISR — 1ère année</div><div class="ap-tw">H3 Campus · Poissy</div><div class="ap-td">Sept. 2023 – Juin 2024</div></div></div>
+          <div class="ap-ti"><div class="ap-tl-l"><div class="ap-dot g"></div><div class="ap-tl-line"></div></div><div><div class="ap-tt">Baccalauréat Technologique</div><div class="ap-tw" style="color:var(--green)">Lycée Les Mureaux</div><div class="ap-td">Obtenu en 2023</div></div></div>
+          <div class="ap-ti"><div class="ap-tl-l"><div class="ap-dot g"></div><div class="ap-tl-line"></div></div><div><div class="ap-tt">Brevet des Collèges</div><div class="ap-tw" style="color:var(--green)">Les Mureaux</div><div class="ap-td">Obtenu en 2020</div></div></div>
+        </div>
+      </div>
+      <div class="apc sgreen">
+        <div class="ap-eh"><span class="ap-eb alt">Alternance</span><span class="ap-en">Star Service</span></div>
+        <div class="ap-em">Sept. 2023 – Juin 2025 · Yvelines (78) · Technicien Support &amp; Réseau</div>
+        <ul class="ap-el">
+          <li>Administration systèmes et réseaux (Windows Server, Linux)</li>
+          <li>Support utilisateur niveau 1 et 2</li>
+          <li>Gestion de parc et déploiement de postes</li>
+          <li>Surveillance et optimisation des équipements réseau</li>
+          <li>Diagnostic et résolution d'incidents critiques</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- FORMATION -->
+<div class="sw" id="formation">
+  <div class="stag tb">Cursus scolaire</div>
+  <div class="stitle">En formation —<br>H3 Campus Poissy</div>
+  <p class="ssub">2 années de BTS SIO SISR en alternance</p>
+  <div class="timeline">
+    <div class="tli">
+      <div class="tl-date">2023 — 2024</div>
+      <div class="tl-lw"><div class="tl-dot b"></div></div>
+      <div class="tl-c blue">
+        <span class="tl-badge bdg-b">1ère année</span>
+        <h3>BTS SIO SISR — Première année</h3>
+        <div class="tl-where">H3 Campus · Poissy</div>
+        <p>Découverte de l'environnement Windows Server, des bases réseau TCP/IP et de la virtualisation.</p>
+        <ul>
+          <li>Installation et configuration de Windows Server 2019</li>
+          <li>Mise en place d'Active Directory et gestion des utilisateurs</li>
+          <li>Initiation au routage et commutation (Cisco Packet Tracer)</li>
+          <li>Découverte de la virtualisation avec VirtualBox</li>
+          <li>Notions de base en cybersécurité et RGPD</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tli">
+      <div class="tl-date">2024 — 2025</div>
+      <div class="tl-lw"><div class="tl-dot p"></div></div>
+      <div class="tl-c blue">
+        <span class="tl-badge bdg-b">2ème année</span>
+        <h3>BTS SIO SISR — Deuxième année</h3>
+        <div class="tl-where">H3 Campus · Poissy</div>
+        <p>Approfondissement en administration système, sécurité réseau et gestion d'infrastructures complexes.</p>
+        <ul>
+          <li>Configuration avancée VLANs, routage inter-VLAN, STP</li>
+          <li>Services réseau : DHCP, DNS, FTP, SSH</li>
+          <li>Supervision : Zabbix, PRTG</li>
+          <li>Sécurisation : pare-feu, VPN, ACL</li>
+          <li>Administration Linux avancée (Ubuntu Server / Debian)</li>
+          <li>Gestion de parc avec GLPI / OCS Inventory</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tli">
+      <div class="tl-date">Compétences</div>
+      <div class="tl-lw"><div class="tl-dot g"></div></div>
+      <div class="tl-c green">
+        <span class="tl-badge bdg-g">Programme BTS SIO SISR</span>
+        <h3>Domaines de compétences couverts</h3>
+        <div class="tl-where green">Administration · Réseaux · Sécurité · Services</div>
+        <ul>
+          <li>Système : Windows Server, Linux (Ubuntu/Debian)</li>
+          <li>Réseaux : Cisco, VLANs, VPN, ACL</li>
+          <li>Virtualisation : VMware ESXi, VirtualBox, Hyper-V</li>
+          <li>Services : déploiement, supervision, gestion de parc</li>
+          <li>Cybersécurité : bonnes pratiques, protection des données</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ENTREPRISE -->
+<div class="sw" id="entreprise">
+  <div class="stag tg">Expérience professionnelle</div>
+  <div class="stitle">En entreprise —<br>Star Service</div>
+  <p class="ssub">Alternance sur 2 ans comme technicien support &amp; réseau</p>
+  <div class="timeline">
+    <div class="tli">
+      <div class="tl-date">Présentation</div>
+      <div class="tl-lw"><div class="tl-dot g"></div></div>
+      <div class="tl-c green">
+        <span class="tl-badge bdg-g">Entreprise</span>
+        <h3>Star Service</h3>
+        <div class="tl-where green">Leader de la logistique urbaine du dernier kilomètre</div>
+        <p>Star Service accompagne les plus grandes enseignes dans la livraison de produits sensibles. Avec plus de <strong>30 ans d'expertise</strong>, l'entreprise mise sur la réactivité et l'innovation technologique pour garantir un service de haute précision.</p>
+      </div>
+    </div>
+    <div class="tli">
+      <div class="tl-date">2023 — 2024</div>
+      <div class="tl-lw"><div class="tl-dot g"></div></div>
+      <div class="tl-c green">
+        <span class="tl-badge bdg-g">1ère année</span>
+        <h3>Technicien Support &amp; Réseau</h3>
+        <div class="tl-where green">Star Service · Helpdesk informatique</div>
+        <p>Première immersion en environnement de production réel.</p>
+        <ul>
+          <li>Assistance technique niveau 1 et 2</li>
+          <li>Configuration et déploiement de postes de travail</li>
+          <li>Gestion et suivi des tickets d'incident</li>
+          <li>Maintenance préventive du parc informatique</li>
+          <li>Documentation des procédures et solutions</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tli">
+      <div class="tl-date">2024 — 2025</div>
+      <div class="tl-lw"><div class="tl-dot pk"></div></div>
+      <div class="tl-c green">
+        <span class="tl-badge bdg-g">2ème année</span>
+        <h3>Technicien Support &amp; Réseau (confirmé)</h3>
+        <div class="tl-where green">Star Service · Infrastructure &amp; Systèmes</div>
+        <p>Montée en compétences avec autonomie sur des projets d'infrastructure.</p>
+        <ul>
+          <li>Surveillance et optimisation des équipements réseau</li>
+          <li>Configuration, déploiement et sécurisation des postes</li>
+          <li>Diagnostic et résolution d'incidents critiques</li>
+          <li>Participation à des projets d'évolution de l'infrastructure</li>
+          <li>Administration des comptes et droits d'accès (AD)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- RÉALISATIONS -->
+<div class="sw" id="realisations">
+  <div class="stag tp">Projets &amp; travaux pratiques</div>
+  <div class="stitle">Réalisations</div>
+  <p class="ssub">Mes projets techniques réalisés en formation et en entreprise</p>
+  <div class="pg">
+    <div class="pc cb"><div class="pi" style="background:rgba(67,97,238,.1)">🖧</div><h3>Infrastructure Active Directory</h3><p>Mise en place d'un domaine AD complet avec GPO, unités organisationnelles et politiques de sécurité.</p><div class="ptags"><span class="ptag">Windows Server 2019</span><span class="ptag">Active Directory</span><span class="ptag">GPO</span><span class="ptag">DNS/DHCP</span></div></div>
+    <div class="pc cg"><div class="pi" style="background:rgba(14,173,105,.1)">🔒</div><h3>Sécurisation réseau avec VLANs</h3><p>Architecture réseau segmentée avec routage inter-VLAN, ACL et mise en place d'un pare-feu.</p><div class="ptags"><span class="ptag">Cisco IOS</span><span class="ptag">VLAN</span><span class="ptag">ACL</span><span class="ptag">Routage</span><span class="ptag">STP</span></div></div>
+    <div class="pc cp"><div class="pi" style="background:rgba(114,9,183,.1)">💻</div><h3>Déploiement serveur Linux</h3><p>Ubuntu Server avec Apache, MySQL et accès SSH sécurisé pour un environnement de production.</p><div class="ptags"><span class="ptag">Ubuntu Server</span><span class="ptag">Apache</span><span class="ptag">MySQL</span><span class="ptag">SSH</span></div></div>
+    <div class="pc co"><div class="pi" style="background:rgba(251,133,0,.1)">📊</div><h3>Supervision de parc GLPI</h3><p>Déploiement GLPI + OCS Inventory pour la gestion automatisée du parc et le suivi des tickets.</p><div class="ptags"><span class="ptag">GLPI</span><span class="ptag">OCS Inventory</span><span class="ptag">Ticketing</span><span class="ptag">Inventaire</span></div></div>
+    <div class="pc cc"><div class="pi" style="background:rgba(76,201,240,.1)">🌐</div><h3>Mise en place d'un VPN</h3><p>Tunnel OpenVPN sécurisé pour l'accès distant des utilisateurs au réseau d'entreprise.</p><div class="ptags"><span class="ptag">OpenVPN</span><span class="ptag">PKI</span><span class="ptag">Certificats</span><span class="ptag">Sécurité</span></div></div>
+    <div class="pc cpk"><div class="pi" style="background:rgba(247,37,133,.1)">🖥️</div><h3>Virtualisation &amp; infrastructure</h3><p>Infrastructure virtualisée multi-VMs pour simuler un environnement d'entreprise complet.</p><div class="ptags"><span class="ptag">VMware</span><span class="ptag">VirtualBox</span><span class="ptag">Snapshots</span><span class="ptag">Réseau virtuel</span></div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- COMPÉTENCES BTS -->
+<div class="sw" id="competences">
+  <div class="stag to">Référentiel BTS SIO SISR</div>
+  <div class="stitle">Compétences du référentiel</div>
+  <p class="ssub">Les blocs de compétences couverts par ma formation</p>
+  <div class="btsg">
+    <div class="btsc b1"><div class="bn">B1</div><h4>Support et mise à disposition</h4><p>Gestion du patrimoine informatique, réponse aux incidents et assistance aux utilisateurs.</p></div>
+    <div class="btsc b2"><div class="bn">B2</div><h4>Organisation du système d'information</h4><p>Évolution et sécurisation du SI, gestion des données, solutions collaboratives.</p></div>
+    <div class="btsc b3"><div class="bn">B3</div><h4>Gestion des infrastructures</h4><p>Administration des serveurs, réseaux, équipements actifs, supervision et sauvegarde.</p></div>
+    <div class="btsc b4"><div class="bn">E4</div><h4>Conception et maintenance</h4><p>Conception et développement d'une solution ou composant d'infrastructure.</p></div>
+    <div class="btsc b5"><div class="bn">E5</div><h4>Administration des systèmes</h4><p>Gestion des serveurs, accès, déploiement et sécurisation des systèmes d'information.</p></div>
+    <div class="btsc b6"><div class="bn">E6</div><h4>Cybersécurité</h4><p>Protection contre les menaces, politiques de sécurité et conformité RGPD.</p></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<div class="sw" id="contact" style="text-align:center">
+  <div class="stag tpk" style="display:inline-flex">Disponible pour échanger</div>
+  <div class="stitle">Me contacter</div>
+  <p class="ssub" style="max-width:460px;margin:0 auto 2.5rem">N'hésitez pas à me contacter pour toute question concernant mon parcours ou mes réalisations.</p>
+  <div class="cc-grid">
+    <a href="mailto:mathiasmaiga78@gmail.com" class="cc cb"><div class="cc-icon" style="background:rgba(67,97,238,.1)"><svg fill="none" stroke="#4361ee" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg></div><div><div class="cc-label">Email</div><div class="cc-val">mathiasmaiga78@gmail.com</div></div></a>
+    <a href="tel:0611307436" class="cc cg"><div class="cc-icon" style="background:rgba(14,173,105,.1)"><svg fill="none" stroke="#0ead69" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg></div><div><div class="cc-label">Téléphone</div><div class="cc-val">06 11 30 74 36</div></div></a>
+    <a href="https://www.linkedin.com/in/mathias-maiga-2951782a9/" target="_blank" class="cc cp"><div class="cc-icon" style="background:rgba(114,9,183,.1)"><svg fill="#7209b7" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></div><div><div class="cc-label">LinkedIn</div><div class="cc-val">mathias-maiga</div></div></a>
+    <div class="cc co" style="cursor:default"><div class="cc-icon" style="background:rgba(251,133,0,.1)"><svg fill="none" stroke="#fb8500" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg></div><div><div class="cc-label">Localisation</div><div class="cc-val">Les Mureaux, France</div></div></div>
+  </div>
+</div>
+
+<footer>
+  <p>Conçu par <strong>Mathias Maiga</strong> · Portfolio BTS SIO SISR · 2024–2025</p>
+  <p style="margin-top:.4rem">H3 Campus Poissy · Star Service</p>
+</footer>
+
+<script>
+  const secs = document.querySelectorAll('[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    secs.forEach(s => { if (window.scrollY >= s.offsetTop - 200) cur = s.id; });
+    links.forEach(a => { a.style.color = ''; if (a.getAttribute('href') === '#' + cur) a.style.color = 'var(--blue)'; });
+  });
+</script>
+</body>
+</html>
